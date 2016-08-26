@@ -421,3 +421,22 @@ Note: In general, for testing and production environment, DOOD is chosen instead
                 o	In order to confirm 3 slave agent process created or not , check with the command 
                 mentioned in below image
 ![8](https://cloud.githubusercontent.com/assets/20100300/17999985/7d50979c-6b41-11e6-9653-692517ddef19.JPG)                
+
+## Jenkins Workflow
+### Build Graph View
+    1.	Job to create artefact for the “product catalogue” spring-boot project.
+            •	Source Code Management – Given the Git Project URL
+            •	Build Triggers – This get executed whenever a change is pushed to GitHub
+            •	Build – Create a jar for spring-boot project
+            •	Post-build Actions – will archive the artefacts which will be used by successor Jenkins jobs
+    2.	Job to build docker image for the “product catalogue” spring-boot project. 
+            •	Build Triggers – This will get executed only when the above artefact project build is stable
+            •	Build - Copying artefacts generated from the previous project
+            •	Build – Build docker image for the product-catalogue project
+    3.	Job to publish the docker image to private registry
+            •	Build Triggers – This will get executed only when the above build docker image is stable
+            •	Build – publish image to docker registry
+    4.	Job  to run the project as docker container from the published image of docker registry
+            •	Build Triggers - This will get executed only when the above publish docker image is stable
+            •	Build – run the published image from docker registry
+    5.	Build Graph View
