@@ -426,17 +426,46 @@ Note: In general, for testing and production environment, DOOD is chosen instead
 ### Build Graph View
     1.	Job to create artefact for the “product catalogue” spring-boot project.
             •	Source Code Management – Given the Git Project URL
+![1](https://cloud.githubusercontent.com/assets/20100300/18000271/e7a99836-6b42-11e6-8f1e-3498f702fa1d.JPG)
+
             •	Build Triggers – This get executed whenever a change is pushed to GitHub
+![2](https://cloud.githubusercontent.com/assets/20100300/18000272/e7d7c210-6b42-11e6-9608-e999369d1fc0.JPG)            
+
             •	Build – Create a jar for spring-boot project
+![3](https://cloud.githubusercontent.com/assets/20100300/18000273/e80614f8-6b42-11e6-938e-6690ef0d9738.JPG)            
+
             •	Post-build Actions – will archive the artefacts which will be used by successor Jenkins jobs
+![4](https://cloud.githubusercontent.com/assets/20100300/18000278/e8372f2a-6b42-11e6-8ea9-f1cbaae1f760.JPG) 
+
+![5](https://cloud.githubusercontent.com/assets/20100300/18000275/e8312a62-6b42-11e6-9fc0-dd9fcbd5aa41.JPG)
+
     2.	Job to build docker image for the “product catalogue” spring-boot project. 
             •	Build Triggers – This will get executed only when the above artefact project build is stable
+![6](https://cloud.githubusercontent.com/assets/20100300/18000277/e833936a-6b42-11e6-875d-94733302a377.JPG)
+
             •	Build - Copying artefacts generated from the previous project
+![7](https://cloud.githubusercontent.com/assets/20100300/18000274/e830eb9c-6b42-11e6-85e8-f4b3c9f5ab13.JPG)            
+
             •	Build – Build docker image for the product-catalogue project
+![8](https://cloud.githubusercontent.com/assets/20100300/18000276/e831f9b0-6b42-11e6-9ed4-b48fb9a49ac6.JPG)            
+
+![9](https://cloud.githubusercontent.com/assets/20100300/18000279/e8377ec6-6b42-11e6-8965-ea1e56e63dd9.JPG)
+
     3.	Job to publish the docker image to private registry
             •	Build Triggers – This will get executed only when the above build docker image is stable
+![10](https://cloud.githubusercontent.com/assets/20100300/18000284/e865207e-6b42-11e6-87bc-35d7d17a3a51.JPG)            
+
             •	Build – publish image to docker registry
+![11](https://cloud.githubusercontent.com/assets/20100300/18000281/e85f8fa6-6b42-11e6-9025-ddd81eb47232.JPG)            
+
+![12](https://cloud.githubusercontent.com/assets/20100300/18000283/e8644e4c-6b42-11e6-9a63-704c085ef504.JPG)
+
     4.	Job  to run the project as docker container from the published image of docker registry
             •	Build Triggers - This will get executed only when the above publish docker image is stable
+![13](https://cloud.githubusercontent.com/assets/20100300/18000282/e8645356-6b42-11e6-9a70-d38a32a27c72.JPG)
+
             •	Build – run the published image from docker registry
+![14](https://cloud.githubusercontent.com/assets/20100300/18000285/e8655cec-6b42-11e6-8cb1-c1bc83919c79.JPG)
+
     5.	Build Graph View
+![15](https://cloud.githubusercontent.com/assets/20100300/18000286/e865df50-6b42-11e6-9e94-6e04153abed1.JPG)    
