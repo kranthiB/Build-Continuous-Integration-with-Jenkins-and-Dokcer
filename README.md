@@ -251,3 +251,66 @@ Note: In general, for testing and production environment, DOOD is chosen instead
     •	Select ‘Add Maven”, un-check the “Install automatically, specify the “Name” as 
     “'Maven_3.3.9”, “MAVEN_HOME” as /var/Jenkins_home/apache-maven-3.3.9” and click the “Save” button.
 ![18](https://cloud.githubusercontent.com/assets/20100300/17998805/ba150b96-6b3b-11e6-978c-afcd4937e112.JPG)
+
+## Install Private Registry with nginx enabled (for proxy):
+    
+    •	Create a directory with name “registry” under “docker-workspace” directory by executing the 
+    command “mkdir registry”
+    •	Go to directory – “registry” , create two sub directories – “nginx” and “data”
+    •	In “registry” folder, create a file with name “docker-compose.yml”, fill with the below content
+                            nginx:
+                                image: "nginx:latest"
+                                ports:
+                                    - 5043:443
+                                links:
+                                    - registry:registry
+                                volumes:
+                                    - ./nginx/:/etc/nginx/conf.d
+                            registry:
+                                    image: registry:2
+                                ports:
+                                    - 5000:5000
+                                environment:
+                                    REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+                                volumes:
+                                    - ./data:/data
+    •	Go to the “nginx” folder, create a file with name “registry.conf”, fill with the below content
+                            upstream docker-registry {
+                                server registry:5000;
+                            }
+                            server {
+                                listen 443;
+                                server_name myregistrydomain.com;
+                                # SSL
+                                # ssl on;
+                                # ssl_certificate /etc/nginx/conf.d/domain.crt;
+                                # ssl_certificate_key /etc/nginx/conf.d/domain.key;
+                                # disable any limits to avoid HTTP 413 for large image uploads
+                                client_max_body_size 0;
+                                # required to avoid HTTP 411: see Issue #1486 
+                                (https://github.com/docker/docker/issues/1486)
+                                chunked_transfer_encoding on;
+                                location /v2/ {
+                                    # Do not allow connections from docker 1.5 and earlier
+                                    # docker pre-1.6.0 did not properly set the user agent on ping,
+                                    catch "Go *" user agents
+                                    if ($http_user_agent ~ "^(docker\/1\.(3|4|5(?!\.[0-9]-dev))|Go ).*$" ) {
+                                        return 404;
+                                    }
+                                    # To add basic authentication to v2 use auth_basic setting plus add_header
+                                    # auth_basic "registry.localhost";
+                                    # auth_basic_user_file /etc/nginx/conf.d/registry.password;
+                                    # add_header 'Docker-Distribution-Api-Version' 'registry/2.0' always;
+                                proxy_pass                          http://docker-registry;
+                            proxy_set_header  Host              $http_host;   # required for docker client's sake
+                                proxy_set_header  X-Real-IP         $remote_addr; # pass on real client's IP
+                                proxy_set_header  X-Forwarded-For   $proxy_add_x_forwarded_for;
+                                proxy_set_header  X-Forwarded-Proto $scheme;
+                                proxy_read_timeout                  900;
+                                }
+                            }
+    •	Go to “registry” folder , execute the below command to run the private registry
+            o	docker-compose up
+ 
+            o	In order to confirm whether the registry related process created or not , execute the
+            command – “docker ps –a” which should be in “Up” status
