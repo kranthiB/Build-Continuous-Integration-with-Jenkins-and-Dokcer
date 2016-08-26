@@ -644,3 +644,13 @@ Note: In general, for testing and production environment, DOOD is chosen instead
                     }
 
 ### Auto Deploy from IBM Dev-Ops Service
+    
+    •	Login to IBM Dev-Ops Service using Bluemix credentials – https://hub.jazz.net 
+    •	Click the “Create Project” in order to map the existing git url.
+    •	Select the github repository to link
+    •	Select the bluemix space and click the create button
+    •	Once project creation done, the same can be visualize in the dashboard
+    •	On selection of the project , will provided with options to edit the code or Build & Deploy the code
+    •	Create a pipeline with two stages – Build and Run as below
+    •	The configuration under Build stage will be like 
+    •	The configuration under run will be like
