@@ -570,3 +570,77 @@ Note: In general, for testing and production environment, DOOD is chosen instead
 
     10.	On click of “surefire Report”
 ![10](https://cloud.githubusercontent.com/assets/20100300/18000629/936be7a4-6b44-11e6-8186-4de848765586.JPG)    
+
+### Pipeline is preferable over Graph view
+
+    •	In a single pipeline job, we can specify all stages of our workflow where as in Graph view each stage 
+    of the flow will be one "Freestyle job"
+    •	In Pipeline view , that master will be dynamically choose the slave node to run a particular stage 
+    depending on the high availability where as in Graph view we have the specify statically the slave node 
+    which is fixed
+
+## IBM BLUEMIX
+
+### Manual Deployment
+
+        •	Download and install the CloudFoundary  CLi from the below URL
+                    https://github.com/cloudfoundry/cli 
+        •	Install the ibm-containers cf CLI plugin using the below command
+                    cf install-plugin https://static-ice.ng.bluemix.net/ibm-containers-linux_x86 -f
+        •	Login to IBM Bluemix using the login command as specified below
+                    cf login -a https://api.ng.bluemix.net -u prokarmapoc@gmail.com -p prokarm@2013 
+                    -o prokarmapoc -s poc
+        •	Set the namespace for the ibm containers (This is only one time set up)
+                    cf ic namespace set poc_ic
+        •	Login to IBM containers 
+                    cf ic login
+        •	Tag the built docker image to the IBM Container registry
+                    docker tag retailstore/produt-catalogue-service registry.ng.bluemix.net/poc_ic/
+                    product-catalogue-service:latest
+        •	Push the image to IBM Container Registry
+                    docker push registry.ng.bluemix.net/poc_ic/product-catalogue-service
+        •	Run the container pushed to IBM registry as below
+                    cf ic run -p 169.44.117.16:8870:8870 --name product-catalogue-service
+                    registry.ng.bluemix.net/poc_ic/product-catalogue-service:latest
+                    
+### Auto Deployment to Bluemix from Jenkins
+
+    Create a pipeline project in Jenkins and add the below pipeline script. This will perform the below steps
+    •	Create jar for the sample spring boot project
+    •	Archive the generated jar
+    •	Build a docker image using the archived jar and the docker file
+    •	Push the generated docker image to IBM Container registryand run an instance in the bluemix from registry
+                stage 'Create artifact'
+                    node {
+                        git url: 'https://github.com/kranthiB/product-catalogue-service.git'
+                        def mvnHome = tool 'Maven-3.3.9'
+                        sh "${mvnHome}/bin/mvn clean install -DskipTests"
+                    }
+                stage 'Archive artifact'
+                    node {
+                        archive '**/*.jar,**/Dockerfile'
+                    }
+                stage 'Build Docker Image'
+                    node {
+                        sh "pwd"
+                        sh "cp ~/workspace/Product_Catalog_BlueMix_Pipeline/target/
+                        product-catalogue-service-1.0.jar ~/workspace/Product_Catalog_BlueMix_Pipeline/"
+                        
+                        sh "docker build -f ~/workspace/Product_Catalog_BlueMix_Pipeline/src/main/
+                        docker/Dockerfile -t retailstore/product-catalogue-service ."
+                }
+                stage 'Deploy To IBM BLUEMIX'
+                    node {
+                        sh "/cf login -a https://api.ng.bluemix.net -u prokarmapoc@gmail.com -p prokarm@2013 
+                        -o prokarmapoc -s poc"
+                        sh "/cf ic login"
+                        sh "docker tag retailstore/product-catalogue-service
+                        registry.ng.bluemix.net/poc_ic/product-catalogue-service:latest"
+                        
+                        sh "docker push registry.ng.bluemix.net/poc_ic/product-catalogue-service"
+                        
+                        sh "/cf ic run -p 169.44.8.154:8870:8870 --name product-catalogue-service
+                        registry.ng.bluemix.net/poc_ic/product-catalogue-service:latest"
+                    }
+
+### Auto Deploy from IBM Dev-Ops Service
