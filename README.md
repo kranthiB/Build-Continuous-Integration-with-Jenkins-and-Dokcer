@@ -473,9 +473,13 @@ Note: In general, for testing and production environment, DOOD is chosen instead
 ### Build Pipeline View
 
     1.	Instead of “Freestyle project”, select project type as “Pipeline”
+![1](https://cloud.githubusercontent.com/assets/20100300/18000621/92e1b386-6b44-11e6-9a78-90d533abc62b.JPG)
+
     2.	Under “Build Triggers” tab, select the option “The project is parameterized” and add a parameter 
     by selecting type as “Node”. Here, we can ensure how many nodes can be involved while executing a 
     pipeline as below
+![2](https://cloud.githubusercontent.com/assets/20100300/18000620/92dfa762-6b44-11e6-85ee-3b0b5dcd597f.JPG)    
+
     3.	Write the pipeline script with clear functionality to be performed at each stage of the workflow
                     stage 'Create artifact'
                         node ('agent1’'){
@@ -543,11 +547,26 @@ Note: In general, for testing and production environment, DOOD is chosen instead
                             sh "docker run -d --name product-catalogue-deployment -p 8870:8870
                             localhost:5043/retailstore/product-catalogue-service"
     	                }
+![3](https://cloud.githubusercontent.com/assets/20100300/18000622/930e3834-6b44-11e6-8701-989f654d88a4.JPG)    	                
+
     4.	Build Pipeline View
+![4](https://cloud.githubusercontent.com/assets/20100300/18000623/93116e96-6b44-11e6-8703-147cfed8d2a4.JPG)    
+
     5.	In the above stage view, we are publishing two reports – “Code Coverage Report” and 
     “Project Report” in 2 different stages. 
+![5](https://cloud.githubusercontent.com/assets/20100300/18000624/933bdf1e-6b44-11e6-99fe-d941fbfb8c94.JPG)    
+
     6.	Click the “Code Coverage Report” to see the results related to this
+![6](https://cloud.githubusercontent.com/assets/20100300/18000625/934296d8-6b44-11e6-9b1e-f70a9f4890d1.JPG)    
+
     7.	Click the “Project Report” to see the results related to this
+![7](https://cloud.githubusercontent.com/assets/20100300/18000626/936747da-6b44-11e6-9c4f-f15c99cf2c00.JPG)    
+
     8.	On click of “FindBugs”
+![8](https://cloud.githubusercontent.com/assets/20100300/18000627/9367c426-6b44-11e6-876b-a09a50f13ba3.JPG)    
+
     9.	On click of “Checkstyle”
+![9](https://cloud.githubusercontent.com/assets/20100300/18000628/9368be8a-6b44-11e6-9319-b43f47cb4a91.JPG)    
+
     10.	On click of “surefire Report”
+![10](https://cloud.githubusercontent.com/assets/20100300/18000629/936be7a4-6b44-11e6-8186-4de848765586.JPG)    
