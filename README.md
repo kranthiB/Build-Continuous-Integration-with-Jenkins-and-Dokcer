@@ -170,8 +170,65 @@ Note: In general, for testing and production environment, DOOD is chosen instead
 ![10](https://cloud.githubusercontent.com/assets/20100300/17998192/b5c9daec-6b38-11e6-8cc9-64a8a5868861.JPG)
 
 
-        
+## Jenkins Master Initial Configuration (One time Configuration)
 
-
-
-  
+    •	Access the Jenkins in windows with url – http://192.168.99.100:8080 . 
+    Once this got accessed, will be seen “Unlock Jenkins” page.
+    
+    •	To get the administrator password, go to the “/c/users/Administrator/docker-workspace/
+    Jenkins/Master/jenkins_home/secrets” directory. In that open the “initialAdminPassword” file.
+    
+    •	Copy the content from the above file and paste in the “Administrator password” text area 
+    and click “Continue” button.
+    
+    •	Now, it will redirect to “Customize Jenkins”  page and select the “Install suggested plugins”
+    
+    •	After few minutes, all the suggested plugins will be installed automatically.
+    
+    •	Now, it will redirect to “Create First Admin User”, enter the user details and click 
+    “Save and Finish” button.
+    
+    •	Now, will get set up complete page, click the “Start using Jenkins” button.
+    
+    •	Click the “Manage Jenkins” link in order to install few plugins required for this Continuous 
+    Integration.
+    
+    •	Now, click the “Manage Plugins” link to go to “Plugin Manager” page.
+    
+    •	Select the “Available” Tab and using the “Filter” select all the below mentioned plugins and 
+    click “Install without restart” button
+                            Build Pipeline Plugin
+                            Build Grpah View Plugin
+                            Node and Label Parameter Plugin
+                            Docker Plugin
+                            Docker Commons Plugin
+                            Docker Build Step Plugin
+                            Copy Artifact Plugin
+                            Groovy
+                            HTML Publisher Plugin
+    •	Once all plugins installed , will be changed the status from “Pending” to “Success”
+    
+    •	Go to “Manage Jenkins” and click the “Manage Nodes” link to create slave jnlp agents.
+    
+    •	In order to create slave node, click the “New Node” link
+    
+    •	Name the node as “agent1”, select the ‘Permanent Agent” radio button and click “OK” button.
+    
+    •	Mention the Remote root directory “/var/jenkins_home” and click the “Save” button.
+    
+    •	Repeat the above 3 steps for created nodes – “agent2” and “agent3”
+    
+    •	Once 3 nodes created, will be seen the agents as below under “Manage Nodes” link.
+    
+    •	Now, select the each agent, copy the secret key which will be used for creation of Jenkins 
+    slave Jnlp agents.
+    
+    •	Download the apache maven from - https://maven.apache.org/download.cgi 
+    
+    •	Copy the maven folder to ““/c/users/Administrator/docker-workspace/Jenkins/Master
+    /jenkins_home” directory
+    
+    •	Go to “Manage Jenkins” and click the “Global Tool Configuration” link to set the maven path
+    
+    •	Select ‘Add Maven”, un-check the “Install automatically, specify the “Name” as 
+    “'Maven_3.3.9”, “MAVEN_HOME” as /var/Jenkins_home/apache-maven-3.3.9” and click the “Save” button.
