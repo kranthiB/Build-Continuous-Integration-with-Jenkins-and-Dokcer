@@ -65,11 +65,15 @@ Note: In general, for testing and production environment, DOOD is chosen instead
         
 ## Install Jenkins Master (with DOOD):
 
-        1.	Create a directory “Jenkins” under “docker-workspace” directory by executing the command “mkdir Jenkins”
-        
+        1.	Create a directory “Jenkins” under “docker-workspace” directory by executing the command
+        “mkdir Jenkins”
+![1](https://cloud.githubusercontent.com/assets/20100300/17998183/b513716c-6b38-11e6-9170-3c8287e1ed26.JPG)
+
         2.	Create a directory “Master” under “Jenkins” directory by executing the command “mkdir Master”
-        
+![2](https://cloud.githubusercontent.com/assets/20100300/17998184/b540af42-6b38-11e6-8e72-b9ec8beeba99.JPG)
+
         3.	Create a file with name “Dockerfile” under “Master” directory and fill with the below content
+![3](https://cloud.githubusercontent.com/assets/20100300/17998185/b56eba54-6b38-11e6-8ea4-1883e2db623c.JPG)
 
                     FROM jenkins:latest
                     MAINTAINER Kranthi Kumar Bitra <kranthi.b76@gmail.com>
@@ -92,7 +96,8 @@ Note: In general, for testing and production environment, DOOD is chosen instead
                     CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
                     
         4.	Create a file with name “supervisord.conf”  under “Master” directory , fill with the below content
-        
+![4](https://cloud.githubusercontent.com/assets/20100300/17998187/b59c5414-6b38-11e6-84f7-95b8f082762e.JPG)
+
                     [supervisord]
                     user=root
                     nodaemon=true
@@ -113,7 +118,8 @@ Note: In general, for testing and production environment, DOOD is chosen instead
                     environment = JENKINS_HOME="/var/jenkins_home",HOME="/var/jenkins_home",USER="root"
         
         5.	Create a file with name “plugins.txt” under “Master” directory , fill with the below content
-        
+![5](https://cloud.githubusercontent.com/assets/20100300/17998186/b59ba30c-6b38-11e6-8fdf-5284e6bc1d8c.JPG)
+
                     structs:latest
                     workflow-step-api:latest
                     workflow-scm-step:latest
@@ -135,7 +141,8 @@ Note: In general, for testing and production environment, DOOD is chosen instead
                     docker-plugin:latest
         
         6.	Create a file with name “docker-compose.yml” under “Master” directory, fill with the below content
-        
+![6](https://cloud.githubusercontent.com/assets/20100300/17998188/b59c4014-6b38-11e6-92fa-cc78151cafad.JPG)
+
                     myjenkins:
                         image: myjenkins_cloudfoundary_dood 
                         volumes:
@@ -149,13 +156,19 @@ Note: In general, for testing and production environment, DOOD is chosen instead
         
                 a.	docker build –t myjenkins_cloudfoundary_dood .  (this will take few minutes time to build 
                 the image – only one time should execute)
-                
-                b.	In order to confirm whether the image got created, execute the command -  “ docker images myjenkins_cloudfoundary_dood”
-                
+![7](https://cloud.githubusercontent.com/assets/20100300/17998189/b59dbc50-6b38-11e6-8a73-7404fbe5f578.JPG)
+
+                b.	In order to confirm whether the image got created, execute the command 
+                -  “ docker images myjenkins_cloudfoundary_dood”
+![8](https://cloud.githubusercontent.com/assets/20100300/17998190/b59f3e2c-6b38-11e6-951c-ff9609f02697.JPG)
+
                 c.	docker-compose up
-                
-                d.	In order to confirm whether the Jenkins process created or not , execute the command – “docker ps –a” which should be in “Up” status
- 
+![9](https://cloud.githubusercontent.com/assets/20100300/17998191/b5a4d45e-6b38-11e6-9651-a0830ac5a42c.JPG)
+
+                d.	In order to confirm whether the Jenkins process created or not , execute the command 
+                – “docker ps –a” which should be in “Up” status
+![10](https://cloud.githubusercontent.com/assets/20100300/17998192/b5c9daec-6b38-11e6-8cc9-64a8a5868861.JPG)
+
 
         
 
