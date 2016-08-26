@@ -51,7 +51,8 @@ Note: In general, for testing and production environment, DOOD is chosen instead
 
 ![1](https://cloud.githubusercontent.com/assets/20100300/17997903/145950c6-6b37-11e6-85ea-387c4feadc5b.JPG)
 
-        2.	Double-Click the “Docker Quick start Terminal” shortcut icon, execute the command “pwd “will come to know which       directory mapped on windows.
+        2.	Double-Click the “Docker Quick start Terminal” shortcut icon, execute the command 
+        “pwd “will come to know which directory mapped on windows.
 
 ![2](https://cloud.githubusercontent.com/assets/20100300/17997906/19905a80-6b37-11e6-92fe-11b13c0a9ad0.JPG)
 
@@ -59,8 +60,8 @@ Note: In general, for testing and production environment, DOOD is chosen instead
 
 ![3](https://cloud.githubusercontent.com/assets/20100300/17997907/19beeec2-6b37-11e6-8c1b-2eea779bf4e9.JPG)
 
-        4.	All the successive steps mentioned will be followed by considering the above mentioned directory as base directory. 
-            (For instance, here base directory - /c/users/Administrator/docker-workspace) 
+        4.	All the successive steps mentioned will be followed by considering the above mentioned directory 
+        as base directory. (For instance, here base directory - /c/users/Administrator/docker-workspace) 
 
 
 
