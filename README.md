@@ -326,3 +326,85 @@ Note: In general, for testing and production environment, DOOD is chosen instead
             o	In order to confirm whether the registry related process created or not , execute the
             command – “docker ps –a” which should be in “Up” status
 ![7](https://cloud.githubusercontent.com/assets/20100300/17999556/5772eee6-6b3f-11e6-8ba2-7a89943c66a9.JPG)                
+
+## Install Jenkins jnlp slave agents
+    
+    •	Create a directory “Slaves” under “Jenkins” directory by executing the command “mkdir Slaves”
+    •	Create 3 directories – “agent1”, “agent2” and “agent3” under “Slaves” directory
+    •	Now repeat the below steps under each agent directory.
+    •	Create a file with name “Dockerfile” and fill with the below content
+                    FROM java:8-jdk
+                    MAINTAINER Kranthi Kumar Bitra <kranthi.b76@gmail.com>
+                    
+                    ENV HOME /var/jenkins_home
+                    RUN useradd -c "Jenkins user" -d $HOME -m jenkins
+                    RUN usermod -G users jenkins
+                    
+                    USER root
+                    RUN apt-get update \
+                    && apt-get install -y sudo supervisor \
+                    && rm -rf /var/lib/apt/lists/*
+                    
+                    RUN curl -sSL https://get.docker.com/ | sh
+                    RUN usermod -aG docker jenkins
+                    
+                    USER root
+                    RUN mkdir -p /var/log/supervisor
+                    RUN mkdir -p /var/log/Jenkins
+                    RUN curl -L "https://cli.run.pivotal.io/stable?release=linux64-binary&source=github" | tar -zx
+                    RUN /cf install-plugin https://static-ice.ng.bluemix.net/ibm-containers-linux_x86 -f
+                   
+                    COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+                    CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+                   
+                    RUN curl -A "Mozilla/5.0" --create-dirs -sSLo /usr/share/jenkins/slave.jar
+                    http://repo.jenkins-ci.org/public/org/jenkins-ci/main/remoting/2.53/remoting-2.53.jar  
+                    && chmod 755 /usr/share/jenkins  && chmod 644 /usr/share/jenkins/slave.jar
+                    
+                    COPY jenkins-slave /usr/local/bin/jenkins-slave
+                    
+                    WORKDIR /var/jenkins_home
+                    USER jenkins
+    •	Create a file with name “supervisord.conf”  , fill with the below content
+                    [supervisord]
+                    user=root
+                    nodaemon=true
+
+                    [program:chown]
+                    priority=20
+                    command=chown -R jenkins:jenkins /var/jenkins_home
+
+                    [program:jenkins]
+                    user=jenkins
+                    autostart=true
+                    autorestart=true
+                    command=/usr/local/bin/jenkins.sh
+                    redirect_stderr=true
+                    stdout_logfile=/var/log/jenkins/%(program_name)s.log
+                    stdout_logfile_maxbytes=10MB
+                    stdout_logfile_backups=10
+                    environment = JENKINS_HOME="/var/jenkins_home",HOME="/var/jenkins_home",USER="jenkins"
+    •	Create a file with name “docker-compose.yml”, fill with the below content
+                
+                    myjenkinsAgent:
+                        image: myjenkins_cloudfoundary_dood_jnlp_agent
+                        command:
+                            java -jar /usr/share/jenkins/slave.jar -jnlpUrl
+                            http://192.168.99.100:8080/computer/agent1/slave-agent.jnlp -secret
+                            4f9b27619dc67a88161e05d6afe36b0508643b74989e5cf29e80c89ace3075a8
+                        volumes:
+                            - /usr/local/bin/docker:/bin/docker
+                            - /var/run/docker.sock:/var/run/docker.sock
+                            
+    •	In command prompt, go to the directory where the above three files exists, execute the below 
+    commands to start Jenkins slave as a jnlp agent.
+                o	docker build –t myjenkins_cloudfoundary_dood_jnlp_agent .  
+                (this will take few minutes time to build the image – only one time should execute)
+                
+                o	In order to confirm whether above step success or not , check with the command 
+                mentioned in below image
+                
+                o	docker-compose up
+                
+                o	In order to confirm 3 slave agent process created or not , check with the command 
+                mentioned in below image
