@@ -645,12 +645,29 @@ Note: In general, for testing and production environment, DOOD is chosen instead
 
 ### Auto Deploy from IBM Dev-Ops Service
     
-    •	Login to IBM Dev-Ops Service using Bluemix credentials – https://hub.jazz.net 
+    •	Login to IBM Dev-Ops Service using Bluemix credentials – https://hub.jazz.net
+![1](https://cloud.githubusercontent.com/assets/20100300/18001038/a077d01e-6b46-11e6-8240-fc0a1be3b50b.JPG)
+
     •	Click the “Create Project” in order to map the existing git url.
+![2](https://cloud.githubusercontent.com/assets/20100300/18001039/a0ac2e40-6b46-11e6-8337-e1318557fd6a.JPG)
+
     •	Select the github repository to link
+![3](https://cloud.githubusercontent.com/assets/20100300/18001040/a0dc5f2a-6b46-11e6-86a8-f580b97211ac.JPG)    
+
     •	Select the bluemix space and click the create button
+![4](https://cloud.githubusercontent.com/assets/20100300/18001041/a1007d92-6b46-11e6-9195-28a5f5ac7a64.JPG)    
+
     •	Once project creation done, the same can be visualize in the dashboard
+![5](https://cloud.githubusercontent.com/assets/20100300/18001043/a104eb52-6b46-11e6-8b1a-a81d357b60c2.JPG)
+
     •	On selection of the project , will provided with options to edit the code or Build & Deploy the code
+![6](https://cloud.githubusercontent.com/assets/20100300/18001042/a1044864-6b46-11e6-9e29-3747f1a8db5e.JPG)
+
     •	Create a pipeline with two stages – Build and Run as below
+![7](https://cloud.githubusercontent.com/assets/20100300/18001044/a1079b04-6b46-11e6-99ef-440270bee02f.JPG)
+
     •	The configuration under Build stage will be like 
+![8](https://cloud.githubusercontent.com/assets/20100300/18001045/a107f748-6b46-11e6-8b65-e54db6158e89.JPG)
+
     •	The configuration under run will be like
+![9](https://cloud.githubusercontent.com/assets/20100300/18001046/a10c6558-6b46-11e6-9fa2-1ab1e8663de6.JPG)    
