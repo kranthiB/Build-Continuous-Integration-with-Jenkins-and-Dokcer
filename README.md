@@ -469,3 +469,85 @@ Note: In general, for testing and production environment, DOOD is chosen instead
 
     5.	Build Graph View
 ![15](https://cloud.githubusercontent.com/assets/20100300/18000286/e865df50-6b42-11e6-9e94-6e04153abed1.JPG)    
+
+### Build Pipeline View
+
+    1.	Instead of “Freestyle project”, select project type as “Pipeline”
+    2.	Under “Build Triggers” tab, select the option “The project is parameterized” and add a parameter 
+    by selecting type as “Node”. Here, we can ensure how many nodes can be involved while executing a 
+    pipeline as below
+    3.	Write the pipeline script with clear functionality to be performed at each stage of the workflow
+                    stage 'Create artifact'
+                        node ('agent1’'){
+                            git url: 'https://github.com/kranthiB/product-catalogue-service.git'
+                            def mvnHome = tool 'Maven_3.3.9'
+                            sh "${mvnHome}/bin/mvn clean install -DskipTests"
+                        }
+                    stage 'Archive artifact'
+                        node{
+                            archive '**/*.jar,**/Dockerfile'
+                        }
+                    stage 'Create artifact'
+    	                node ('master'){
+                            git url: 'https://github.com/kranthiB/product-catalogue-service.git'
+                            def mvnHome = tool 'Maven_3.3.9''
+                            sh "${mvnHome}/bin/mvn clean package"
+                        }
+                    stage 'Archive artifact'
+    	                node  {
+                            archive '**/*.jar,**/Dockerfile'
+                        }    
+                    stage 'Build Docker Image'
+    	                node('master') {
+                                sh "cp ~/workspace/Product_Catalog_Local_Pipeline/target/
+                                product-catalogue-service-1.0.jar ~/workspace/Product_Catalog_Local_Pipeline/"
+                                
+                                sh "docker build -f ~/workspace/Product_Catalog_Local_Pipeline/src/main/
+                                docker/Dockerfile -t retailstore/product-catalogue-service ."
+                        }
+                    stage 'Run Integration Tests'
+       	                node('master') {  
+            		            def mvnHome = tool 'Maven_3.3.9'
+           		                sh "${mvnHome}/bin/mvn test"
+        	            }
+                    stage 'Generate Reports'
+       	                node('master') {
+           		            def mvnHome = tool 'Maven-3.3.9'
+           		            sh "${mvnHome}/bin/mvn site"
+        	            }
+                    stage 'Publish Code Coverage Report'
+        	            node('master') {
+                            publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: false, 
+                            keepAll: false, reportDir: 'target/site/jacoco', reportFiles: 'index.html', 
+                            reportName: 'Code Coverage Report'])
+        	            }
+                    stage 'Publish Project Report'
+       	                node('master') {
+                            publishHTML(target: [allowMissing: false, alwaysLinkToLastBuild: false,
+                            keepAll: false, reportDir: 'target/site', reportFiles: 'project-reports.html', 
+                            reportName: 'Project Report'])
+        	            }
+                    stage 'Publish Docker Image'    
+    	                node('master'){
+                            sh "docker tag retailstore/product-catalogue-service localhost:5043/
+                            retailstore/product-catalogue-service"
+
+                            sh "docker push localhost:5043/retailstore/product-catalogue-service"
+    	                }
+                    stage 'Run Docker Image'
+    	                node('master'){
+                            sh "if [ \$(docker ps -aqf 'name=product-catalogue-deployment') ] ; 
+                            then docker rm -f  \$(docker ps -aqf 'name=product-catalogue-deployment'); 
+                            else echo \" No container found\" ; fi"
+
+                            sh "docker run -d --name product-catalogue-deployment -p 8870:8870
+                            localhost:5043/retailstore/product-catalogue-service"
+    	                }
+    4.	Build Pipeline View
+    5.	In the above stage view, we are publishing two reports – “Code Coverage Report” and 
+    “Project Report” in 2 different stages. 
+    6.	Click the “Code Coverage Report” to see the results related to this
+    7.	Click the “Project Report” to see the results related to this
+    8.	On click of “FindBugs”
+    9.	On click of “Checkstyle”
+    10.	On click of “surefire Report”
