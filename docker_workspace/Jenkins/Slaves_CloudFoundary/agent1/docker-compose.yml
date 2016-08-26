@@ -1,0 +1,7 @@
+myjenkinsAgent:
+  image: myjenkins_cloudfoundary_dood_jnlp_agent
+  command: java -jar /usr/share/jenkins/slave.jar -jnlpUrl http://192.168.99.100:8080/computer/agent1/slave-agent.jnlp -secret b07fbf60046000c4d1439bff25575a72345745cd3b1918ba343c61f185ecb620
+  volumes:
+    - /usr/local/bin/docker:/bin/docker
+    - /var/run/docker.sock:/var/run/docker.sock
+    - ./jenkins_home:/var/jenkins_home
