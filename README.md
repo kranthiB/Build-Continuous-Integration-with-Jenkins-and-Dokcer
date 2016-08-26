@@ -256,8 +256,16 @@ Note: In general, for testing and production environment, DOOD is chosen instead
     
     •	Create a directory with name “registry” under “docker-workspace” directory by executing the 
     command “mkdir registry”
+![1](https://cloud.githubusercontent.com/assets/20100300/17999548/56e54a96-6b3f-11e6-87d4-6acb8811d789.JPG)
+    
     •	Go to directory – “registry” , create two sub directories – “nginx” and “data”
+![2](https://cloud.githubusercontent.com/assets/20100300/17999550/571c86dc-6b3f-11e6-8241-876885efc180.JPG)
+
+![3](https://cloud.githubusercontent.com/assets/20100300/17999552/574f0b20-6b3f-11e6-9ff4-79e0bbefd3c2.JPG)
+
     •	In “registry” folder, create a file with name “docker-compose.yml”, fill with the below content
+![4](https://cloud.githubusercontent.com/assets/20100300/17999554/576f8b7a-6b3f-11e6-9783-f336d7893d06.JPG)
+
                             nginx:
                                 image: "nginx:latest"
                                 ports:
@@ -275,6 +283,8 @@ Note: In general, for testing and production environment, DOOD is chosen instead
                                 volumes:
                                     - ./data:/data
     •	Go to the “nginx” folder, create a file with name “registry.conf”, fill with the below content
+![5](https://cloud.githubusercontent.com/assets/20100300/17999553/576f8b7a-6b3f-11e6-8b8e-c27e3da47486.JPG)    
+
                             upstream docker-registry {
                                 server registry:5000;
                             }
@@ -311,6 +321,8 @@ Note: In general, for testing and production environment, DOOD is chosen instead
                             }
     •	Go to “registry” folder , execute the below command to run the private registry
             o	docker-compose up
- 
+![6](https://cloud.githubusercontent.com/assets/20100300/17999555/576fcab8-6b3f-11e6-8724-6c21c7a0e367.JPG)
+
             o	In order to confirm whether the registry related process created or not , execute the
             command – “docker ps –a” which should be in “Up” status
+![7](https://cloud.githubusercontent.com/assets/20100300/17999556/5772eee6-6b3f-11e6-8ba2-7a89943c66a9.JPG)                
