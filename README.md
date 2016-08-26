@@ -393,7 +393,7 @@ Note: In general, for testing and production environment, DOOD is chosen instead
                     stdout_logfile_backups=10
                     environment = JENKINS_HOME="/var/jenkins_home",HOME="/var/jenkins_home",USER="jenkins"
     •	Create a file with name “docker-compose.yml”, fill with the below content
-![5](https://cloud.githubusercontent.com/assets/20100300/17999988/7d5656f0-6b41-11e6-9d70-c942b6845e60.JPG)    
+![1](https://cloud.githubusercontent.com/assets/20100300/18000076/f696edcc-6b41-11e6-941f-d0ed8e3ad1d3.JPG)
 
 ![6](https://cloud.githubusercontent.com/assets/20100300/17999986/7d5421b4-6b41-11e6-97dd-cb31d7d8c3b8.JPG)
 
