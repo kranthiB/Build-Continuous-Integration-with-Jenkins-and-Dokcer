@@ -328,11 +328,17 @@ Note: In general, for testing and production environment, DOOD is chosen instead
 ![7](https://cloud.githubusercontent.com/assets/20100300/17999556/5772eee6-6b3f-11e6-8ba2-7a89943c66a9.JPG)                
 
 ## Install Jenkins jnlp slave agents
-    
+
     •	Create a directory “Slaves” under “Jenkins” directory by executing the command “mkdir Slaves”
+![1](https://cloud.githubusercontent.com/assets/20100300/17999981/7cc7cb4c-6b41-11e6-9556-15310736b91b.JPG)
+
     •	Create 3 directories – “agent1”, “agent2” and “agent3” under “Slaves” directory
+![2](https://cloud.githubusercontent.com/assets/20100300/17999982/7cf71226-6b41-11e6-92ac-ae0f721d8fb8.JPG)    
+
     •	Now repeat the below steps under each agent directory.
     •	Create a file with name “Dockerfile” and fill with the below content
+![3](https://cloud.githubusercontent.com/assets/20100300/17999983/7d28d84c-6b41-11e6-9c17-8f4f823ec7cd.JPG)    
+
                     FROM java:8-jdk
                     MAINTAINER Kranthi Kumar Bitra <kranthi.b76@gmail.com>
                     
@@ -366,6 +372,8 @@ Note: In general, for testing and production environment, DOOD is chosen instead
                     WORKDIR /var/jenkins_home
                     USER jenkins
     •	Create a file with name “supervisord.conf”  , fill with the below content
+![4](https://cloud.githubusercontent.com/assets/20100300/17999989/7dc5a6fe-6b41-11e6-80dc-096d410691f9.JPG)    
+
                     [supervisord]
                     user=root
                     nodaemon=true
@@ -385,7 +393,10 @@ Note: In general, for testing and production environment, DOOD is chosen instead
                     stdout_logfile_backups=10
                     environment = JENKINS_HOME="/var/jenkins_home",HOME="/var/jenkins_home",USER="jenkins"
     •	Create a file with name “docker-compose.yml”, fill with the below content
-                
+![5](https://cloud.githubusercontent.com/assets/20100300/17999988/7d5656f0-6b41-11e6-9d70-c942b6845e60.JPG)    
+
+![6](https://cloud.githubusercontent.com/assets/20100300/17999986/7d5421b4-6b41-11e6-97dd-cb31d7d8c3b8.JPG)
+
                     myjenkinsAgent:
                         image: myjenkins_cloudfoundary_dood_jnlp_agent
                         command:
@@ -403,8 +414,10 @@ Note: In general, for testing and production environment, DOOD is chosen instead
                 
                 o	In order to confirm whether above step success or not , check with the command 
                 mentioned in below image
-                
+![7](https://cloud.githubusercontent.com/assets/20100300/17999987/7d56453e-6b41-11e6-8c27-1c516c05f618.JPG)
+
                 o	docker-compose up
                 
                 o	In order to confirm 3 slave agent process created or not , check with the command 
                 mentioned in below image
+![8](https://cloud.githubusercontent.com/assets/20100300/17999985/7d50979c-6b41-11e6-9653-692517ddef19.JPG)                
